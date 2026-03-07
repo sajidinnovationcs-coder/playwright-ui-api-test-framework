@@ -4,9 +4,11 @@ const suaceDemoURL = {
 }
 
 
-const petStoreApiURL = {
+const petstoreordersURL = {
+    "postPetOrder": "https://petstore.swagger.io/v2/store/order",
+    "getPetorder": "https://petstore.swagger.io/v2/store/order/orderID"
 
 
 }
 
-export { suaceDemoURL, petStoreApiURL }
+export { suaceDemoURL, petstoreordersURL }
