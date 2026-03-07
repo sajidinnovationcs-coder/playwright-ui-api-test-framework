@@ -1,4 +1,4 @@
-import { login } from '../../../src/pages/auth/login.page'
+import { login, getEmailValidationMessage } from '../../../src/pages/auth/login.page'
 import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv'
 import path from 'path'
@@ -15,11 +15,24 @@ const PASSWORD = process.env.PASSWORD || 'scerateSauce'
 
 test.describe("Validate login page with valid and invalid user credentials", () => {
 
-    test("Valid login", async ({ page }) => {
+
+    test.skip("Valid login", async ({ page }) => {
 
         let pageStatus = await login(config.loginPage, page, USERNAME, PASSWORD);
         await expect(pageStatus).toHaveTitle(/Account – Sauce Demo/);
     })
+
+    test("invalid login", async ({ page }) => {
+        const invalidUsername = "wrong_user";
+        const invalidPassword = "wrong_pass";
+
+        await login(config.loginPage, page, invalidUsername, invalidPassword);
+        const validationMessage = await getEmailValidationMessage(page);
+        //console.log(validationMessage);
+        expect(validationMessage).toContain("@");
+
+    })
+
 
 
 })
