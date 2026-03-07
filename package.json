@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "UI_Auth": "TEST_NAME=auth npx playwright test tests/ui/auth/ --reporter=html",
+    "UI_Cart": "TEST_NAME=cart npx playwright test tests/ui/cart/ --reporter=html",
+    "API_AddTOCart": "TEST_NAME=api-add-to-cart npx playwright test tests/api/pet/"
   },
   "keywords": [],
   "author": "",

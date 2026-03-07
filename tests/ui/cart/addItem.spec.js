@@ -12,17 +12,16 @@ const filePath = path.resolve(__dirName, '..', '..', '..', '.env');
 dotenv.config({ path: filePath })
 
 
-test.describe("validate cart by adding item into it", () => {
+test.describe("Cart functionality - adding items", () => {
 
-    test("add item", async ({ page }) => {
+    test("should display correct cart total after adding an item", async ({ page }) => {
         const USERNAME = process.env.USERNAME || 'standardUser';
         const PASSWORD = process.env.PASSWORD || 'scerateSauce'
 
 
         await login(config.loginPage, page, USERNAME, PASSWORD);
         let cartResult = await addProductToCart(config.homepage, page);
-        await expect(cartResult.productPrice).toMatch(/^£\d+\.\d{2}$/);
-        await expect(cartResult.cartCount).toBe(1);
-
+        expect(cartResult.productPrice).toMatch(/^£\d+\.\d{2}$/);
+        expect(cartResult.cartCount).toBe(1);
     })
 })

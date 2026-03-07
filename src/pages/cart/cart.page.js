@@ -33,7 +33,7 @@ export async function addProductToCart(url, page) {
             cartCount = parseInt(cartCount, 10);
         }
 
-        console.log("cartCount" + cartCount);
+        //console.log("cartCount" + cartCount);
 
         cartResult = {
             "productPrice": productPrice,

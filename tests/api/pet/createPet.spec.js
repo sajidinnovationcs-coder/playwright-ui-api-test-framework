@@ -3,9 +3,9 @@ import { test, expect } from '@playwright/test'
 
 let postBodyresult;
 let getBody;
-test.describe("validate store api", () => {
+test.describe("Store API - place new pet", () => {
 
-    test("validate place order pet", async () => {
+    test("should place a new pet order successfully", async () => {
 
         postBodyresult = await storePlacePetOrder();
         // console.log(postBodyresult);
@@ -20,9 +20,7 @@ test.describe("validate store api", () => {
 
 
 
-    test("get pet order ", async () => {
-
-
+    test("should retrieve a pet order by ID ", async () => {
         getBody = await storeGetOrder(postBodyresult[0].body.id);
         expect(getBody.status).toBe(200);
         expect(getBody.body.id).toBe(postBodyresult[0].body.id);
@@ -31,7 +29,7 @@ test.describe("validate store api", () => {
 
     })
 
-    test("get pet order schema validation", async () => {
+    test("should validate the schema of the retrieved pet order", async () => {
 
         expect(typeof getBody.body.id).toBe("number");
         expect(typeof getBody.body.petId).toBe("number");
