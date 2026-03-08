@@ -20,8 +20,22 @@ test.describe("Cart functionality - adding items", () => {
 
 
         await login(config.loginPage, page, USERNAME, PASSWORD);
+
         let cartResult = await addProductToCart(config.homepage, page);
         expect(cartResult.productPrice).toMatch(/^£\d+\.\d{2}$/);
         expect(cartResult.cartCount).toBe(1);
     })
+
+
+
+    test("should not add product when product list is missing", async ({ page }) => {
+        const USERNAME = process.env.USERNAME || 'standardUser';
+        const PASSWORD = process.env.PASSWORD || 'scerateSauce'
+
+        await login(config.loginPage, page, process.env.USERNAME, process.env.PASSWORD);
+
+        let result = await addProductToCart(config.searchPage, page);
+        expect(result.cartCount).toBeNull();
+        expect(result.productPrice).toBeNull();
+    });
 })
