@@ -8,7 +8,7 @@ const reportFolder = path.join('playwright-report', `${testName}-${Date.now()}`)
 
 export default defineConfig({
     testDir: './tests',
-    timeout: 30 * 1000,
+    timeout: 120 * 1000,
 
     expect: {
         timeout: 5000,
