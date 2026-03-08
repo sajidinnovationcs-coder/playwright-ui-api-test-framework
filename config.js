@@ -1,12 +1,14 @@
 const suaceDemoURL = {
     "homepage": "https://sauce-demo.myshopify.com/",
-    "loginPage": "https://sauce-demo.myshopify.com/account/login"
+    "loginPage": "https://sauce-demo.myshopify.com/account/login",
+    "searchPage": "https://sauce-demo.myshopify.com/search"
 }
 
 
 const petstoreordersURL = {
     "postPetOrder": "https://petstore.swagger.io/v2/store/order",
-    "getPetorder": "https://petstore.swagger.io/v2/store/order/orderID"
+    "getPetorder": "https://petstore.swagger.io/v2/store/order/orderID",
+
 
 
 }
