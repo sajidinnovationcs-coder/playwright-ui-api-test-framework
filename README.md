@@ -54,7 +54,7 @@ Every push to `master` automatically:
 
 ### Pipeline status
 
-You can view all pipeline runs under the [Actions tab](https://github.com/sajidinnovationcs-coder/githubPract-1/actions).
+You can view all pipeline runs under the [Actions tab](https://github.com/sajidinnovationcs-coder/playwright-ui-api-test-framework/actions).
 
 ### Slack notifications
 
