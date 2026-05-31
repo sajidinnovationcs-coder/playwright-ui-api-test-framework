@@ -1,41 +1,45 @@
-import { test, expect } from '@playwright/test';
-import { addProductToCart } from '../../../src/pages/cart/cart.page.js'
-import { suaceDemoURL as config } from '../../../config.js'
-import { login } from '../../../src/pages/auth/login.page';
-import dotenv from 'dotenv'
-import path from 'path'
+import { test, expect } from "@playwright/test";
+import { addProductToCart } from "../../../src/pages/cart/cart.page.js";
+import { suaceDemoURL as config } from "../../../config.js";
+import { login } from "../../../src/pages/auth/login.page";
+import dotenv from "dotenv";
+import path from "path";
 
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from "url";
 const __fileName = fileURLToPath(import.meta.url);
 const __dirName = path.dirname(__fileName);
-const filePath = path.resolve(__dirName, '..', '..', '..', '.env');
-dotenv.config({ path: filePath })
-
+const filePath = path.resolve(__dirName, "..", "..", "..", ".env");
+dotenv.config({ path: filePath });
 
 test.describe("Cart functionality - adding items", () => {
+  test("should display correct cart total after adding an item", async ({
+    page,
+  }) => {
+    const USERNAME = process.env.USERNAME || "standardUser";
+    const PASSWORD = process.env.PASSWORD || "scerateSauce";
 
-    test("should display correct cart total after adding an item", async ({ page }) => {
-        const USERNAME = process.env.USERNAME || 'standardUser';
-        const PASSWORD = process.env.PASSWORD || 'scerateSauce'
+    await login(config.loginPage, page, USERNAME, PASSWORD);
 
+    let cartResult = await addProductToCart(config.homepage, page);
+    expect.soft(cartResult.productPrice).toMatch(/^£\d+\.\d{2}$/);
+    expect.soft(cartResult.cartCount).toBe(1);
+  });
 
-        await login(config.loginPage, page, USERNAME, PASSWORD);
+  test("should not add product when product list is missing", async ({
+    page,
+  }) => {
+    const USERNAME = process.env.USERNAME || "standardUser";
+    const PASSWORD = process.env.PASSWORD || "scerateSauce";
 
-        let cartResult = await addProductToCart(config.homepage, page);
-        expect(cartResult.productPrice).toMatch(/^£\d+\.\d{2}$/);
-        expect(cartResult.cartCount).toBe(1);
-    })
+    await login(
+      config.loginPage,
+      page,
+      process.env.USERNAME,
+      process.env.PASSWORD,
+    );
 
-
-
-    test("should not add product when product list is missing", async ({ page }) => {
-        const USERNAME = process.env.USERNAME || 'standardUser';
-        const PASSWORD = process.env.PASSWORD || 'scerateSauce'
-
-        await login(config.loginPage, page, process.env.USERNAME, process.env.PASSWORD);
-
-        let result = await addProductToCart(config.searchPage, page);
-        expect(result.cartCount).toBeNull();
-        expect(result.productPrice).toBeNull();
-    });
-})
+    let result = await addProductToCart(config.searchPage, page);
+    expect.soft(result.cartCount).toBeNull();
+    expect.soft(result.productPrice).toBeNull();
+  });
+});

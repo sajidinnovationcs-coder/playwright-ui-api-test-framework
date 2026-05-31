@@ -9,7 +9,8 @@
   "scripts": {
     "UI_Auth": "TEST_NAME=auth npx playwright test tests/ui/auth/ --reporter=html",
     "UI_Cart": "TEST_NAME=cart npx playwright test tests/ui/cart/ --reporter=html",
-    "API_AddTOCart": "TEST_NAME=api-add-to-cart npx playwright test tests/api/pet/"
+    "API_AddTOCart": "TEST_NAME=api-add-to-cart npx playwright test tests/api/pet/",
+    "api_smoke_test": "TEST_NAME=API-smoke-test npx playwright test tests/api/pet/api-smoke-test-pack.js"
   },
   "keywords": [],
   "author": "",
