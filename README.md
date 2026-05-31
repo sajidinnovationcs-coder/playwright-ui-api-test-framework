@@ -111,7 +111,7 @@ When tests fail, the team receives an instant Slack alert:
 
 ```
 ❌ Tests Failed!
-Repository:   sajidinnovationcs-coder/githubPract-1
+Repository:   sajidinnovationcs-coder/playwright-ui-api-test-framework
 Branch:       master
 Triggered by: sajidinnovationcs-coder
 View Run:     https://github.com/...
@@ -193,8 +193,8 @@ project-root
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/sajidinnovationcs-coder/githubPract-1.git
-cd githubPract-1
+git clone https://github.com/sajidinnovationcs-coder/playwright-ui-api-test-framework.git
+cd playwright-ui-api-test-framework
 ```
 
 ### 2. Install dependencies
