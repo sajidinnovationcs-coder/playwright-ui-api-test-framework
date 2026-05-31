@@ -1,59 +1,99 @@
-# 🚀 Playwright Automation Framework (UI + API)
+# Playwright Automation Framework (UI + API)
 
-A Playwright-based automation framework to test web UI ([Sauce Demo](https://sauce-demo.myshopify.com/)) and REST APIs ([Petstore API](https://petstore.swagger.io/)) seamlessly.
+A professional Playwright-based automation framework for testing web UI ([Sauce Demo](https://sauce-demo.myshopify.com/)) and REST APIs ([Petstore API](https://petstore.swagger.io/)).
 
-The framework is designed with **scalability, maintainability, and reusability** in mind using a modular structure and Page Object Model principles.
+Built with **scalability, maintainability, and reusability** in mind using Page Object Model and a modular structure.
 
----
-
-# 📌 Features
-
-✔ UI Automation using Playwright
-✔ API Testing using Playwright request library
-✔ Page Object Model structure
-✔ HTML test reporting : Planned for a future release.
-✔ Screenshots on failure: Feature  Planned for a future release.
-✔ Video recording on failure : Feature  : Planned for a future release.
-✔ Environment variable support for credentials
-✔ Organized UI and API test structure
+[![CI](https://github.com/sajidinnovationcs-coder/githubPract-1/actions/workflows/ci.yml/badge.svg)](https://github.com/sajidinnovationcs-coder/githubPract-1/actions/workflows/ci.yml)
 
 ---
 
-# 🛠 Tech Stack
+## Features
 
-* **Playwright**
-* **JavaScript (Node.js)**
-* **Playwright Test Runner**
-* **HTML Reporting**
-* **Environment Variables**
-* **Node-fetch api for api automation**
-
+- UI automation using Playwright
+- API testing using node-fetch
+- Page Object Model (POM) architecture
+- CI/CD pipeline with GitHub Actions
+- Slack failure notifications
+- Chromium browser caching for fast CI runs
+- Environment variable support for credentials
+- HTML test reporting
+- Organised UI and API test structure
 
 ---
-💻 Git Workflow / Branching Strategy
 
-This project follows a professional feature-branch workflow to ensure code quality and team collaboration:
+## Tech Stack
 
-All new features or fixes are developed in feature branches
+| Tool                 | Purpose                       |
+| -------------------- | ----------------------------- |
+| Playwright           | UI automation and test runner |
+| JavaScript (Node.js) | Primary language              |
+| node-fetch           | API automation                |
+| GitHub Actions       | CI/CD pipeline                |
+| Slack                | Failure notifications         |
+| ESLint               | Code quality                  |
+| Prettier             | Code formatting               |
 
-Pull requests (PRs) are required for merging into master
-
-Direct pushes to master are prohibited, ensuring stability
-
-PRs are reviewed and approved before merging, promoting code quality and collaboration
 ---
 
-# 📂 Project Structure
+## CI/CD Pipeline
+
+This framework has a fully automated CI/CD pipeline powered by **GitHub Actions**.
+
+### What the pipeline does
+
+Every push to `master` automatically:
+
+1. Checks out the code
+2. Sets up Node.js v24
+3. Installs npm dependencies (cached)
+4. Restores Playwright Chromium from cache (or downloads on first run)
+5. Runs the test suite
+6. Uploads the Playwright HTML report as an artifact on failure
+7. Sends a Slack notification on failure with a direct link to the failed run
+
+### Pipeline status
+
+You can view all pipeline runs under the [Actions tab](https://github.com/sajidinnovationcs-coder/githubPract-1/actions).
+
+### Slack notifications
+
+When tests fail, the team receives an instant Slack alert:
+
+```
+❌ Tests Failed!
+Repository:   sajidinnovationcs-coder/githubPract-1
+Branch:       master
+Triggered by: sajidinnovationcs-coder
+View Run:     https://github.com/...
+```
+
+---
+
+## Git Workflow
+
+This project follows a professional feature-branch workflow:
+
+- All features and fixes are developed on dedicated feature branches
+- Pull requests are required before merging into `master`
+- Direct pushes to `master` are prohibited
+- PRs are reviewed and approved before merging
+
+---
+
+## Project Structure
 
 ```
 project-root
 │
+├── .github
+│   └── workflows
+│       └── ci.yml               ← GitHub Actions pipeline
+│
 ├── playwright-report
-│   └── api-add-to-cart-1772920699986
-│       └── (HTML test reports)
+│   └── (HTML test reports)
 │
 ├── src
-│   │
 │   ├── apiClient
 │   │   └── petClient.js
 │   │
@@ -67,7 +107,6 @@ project-root
 │   ├── pages
 │   │   ├── auth
 │   │   │   └── login.page.js
-│   │   │
 │   │   └── cart
 │   │       └── cart.page.js
 │   │
@@ -76,7 +115,6 @@ project-root
 │       └── dataGenerator.js
 │
 ├── tests
-│   │
 │   ├── api
 │   │   └── pet
 │   │       └── createPet.spec.js
@@ -84,238 +122,160 @@ project-root
 │   └── ui
 │       ├── auth
 │       │   └── login.spec.js
-│       │
 │       └── cart
 │           └── addItem.spec.js
 │
-├── .env
+├── .env.example                 ← example env file (never commit .env)
+├── .eslintrc.config.js          ← ESLint configuration
 ├── .gitignore
+├── .prettierrc                  ← Prettier configuration
 ├── config.js
 ├── playwright.config.js
 ├── package.json
-└── README.mdt
+└── README.md
 ```
 
 ---
 
-# ⚙️ Installation
+## Installation
 
-### 1️⃣ Clone repository
+### 1. Clone the repository
 
+```bash
+git clone https://github.com/sajidinnovationcs-coder/githubPract-1.git
+cd githubPract-1
 ```
-git clone <repository-url>
-cd <project-folder>
-```
 
-### 2️⃣ Install dependencies
+### 2. Install dependencies
 
-```
+```bash
 npm install
 ```
 
-### 3️⃣ Install Playwright browsers
+### 3. Install Playwright Chromium
 
-```
+```bash
 npx playwright install chromium
 ```
 
----
+### 4. Set up environment variables
 
-# 🔐 Environment Variables
+Copy the example env file and fill in your credentials:
 
-Credentials can be provided through environment variables to avoid hardcoding sensitive data.
-
-Example:
-
-```
-export USERNAME=testuser
-export PASSWORD=testpassword
+```bash
+cp .env.example .env
 ```
 
-The framework reads credentials like this:
-
-```
-const USERNAME = process.env.USERNAME || 'standardUser';
-const PASSWORD = process.env.PASSWORD || 'secretSauce';
+```env
+SAUCE_USERNAME=standard_user
+SAUCE_PASSWORD=secret_sauce
 ```
 
 ---
 
-# ▶️ Running Tests
+## Running Tests
 
 ### Run all tests
 
-```
+```bash
 npx playwright test
 ```
 
----
-
 ### Run UI authentication tests
 
-```
+```bash
 npm run UI_Auth
 ```
 
----
-
 ### Run UI cart tests
 
-```
+```bash
 npm run UI_Cart
 ```
 
----
-
 ### Run API tests
 
-```
+```bash
 npm run API_AddTOCart
 ```
 
 ---
 
-# 📊 Test Reports
+## Test Reports
 
-After execution, Playwright automatically generates an **HTML report**.
+Playwright automatically generates an HTML report after execution.
 
-### Open report
+### Open the report
 
-```
+```bash
 npx playwright show-report
 ```
 
 ### Report location
 
 ```
-playwright-report/Testname-folder/index.html: For example: api-add-to-cart-1772920699986/index.html
-```
-
-The report contains:
-
-* Test execution results
-* Test duration details
-* Failed test screenshots: Planned for a future release.
-* Video recordings: Planned for a future release.
-* Trace debugging : Planned for a future release.
-
-
----
-
-# 🧪 Test Coverage
-
-## UI Tests
-
-* Login page validation
-* Valid user authentication
-* Invalid login validation
-* Cart functionality
-
----
-
-## API Tests
-
-* Add item to cart
-* Validate API response status
-* Validate response body fields
-* Verify data consistency
-
----
-
-# 🧱 Framework Design
-
-This framework follows **Page Object Model (POM)** design.
-
-Example:
-
-```
-login.page.js
-```
-
-Handles:
-
-* Login page locators
-* Login actions
-* Validation methods
-
-Test files focus only on:
-
-* Test scenarios
-* Assertions
-
-This separation improves:
-
-* Maintainability
-* Reusability
-* Readability
-
----
-
-# 📈 Example Test Execution
-
-Run authentication tests:
-
-```
-npm run UI_Auth
-```
-
-Example console output:
-
-```
-Running 2 tests using 1 worker
-
-✓ Valid login
-✓ Invalid login
-
-2 passed
+playwright-report/<test-folder>/index.html
 ```
 
 ---
 
-# 🔍 Debugging Failed Tests 
+## Test Coverage
 
-Playwright automatically captures:
+### UI Tests
 
-* Screenshots : Planned for a future release.
-* Videos : Planned for a future release.
-* Trace files
+- Login page validation
+- Valid user authentication
+- Invalid login validation
+- Cart functionality
 
-Trace can be opened using:
+### API Tests
 
-```
-npx playwright show-trace trace.zip
-```
-
----
-
-# 🚀 Future Improvements
-
-Possible enhancements for this framework:
-
-* Cross-browser execution
-* Parallel test execution
-* CI/CD pipeline integration
-* Allure reporting
-* Test Data Management: A more stable and robust data model will be implemented in future releases
-* API schema validation
+- Add item to cart
+- Validate API response status
+- Validate response body fields
+- Verify data consistency
 
 ---
 
-# 👨‍💻 Author
+## Framework Design
 
-Developed by **Sajidali Saiyed**.  
-Automation framework built using **Playwright** for UI and API testing.  
+This framework follows **Page Object Model (POM)**:
+
+```
+login.page.js        → locators, actions, validation methods
+login.spec.js        → test scenarios and assertions only
+```
+
+Benefits:
+
+- Maintainability — change locator in one place
+- Reusability — share page methods across tests
+- Readability — tests read like plain English
+
+---
+
+## Roadmap
+
+- [x] UI automation (Playwright)
+- [x] API automation (node-fetch)
+- [x] Page Object Model
+- [x] CI/CD pipeline (GitHub Actions)
+- [x] Slack failure notifications
+- [x] ESLint + Prettier code quality
+- [ ] Screenshots on failure
+- [ ] Video recording on failure
+- [ ] Trace debugging integration
+- [ ] Cross-browser execution
+- [ ] Parallel test execution
+- [ ] Allure reporting
+- [ ] API schema validation
+- [ ] Test data management
+
+---
+
+## Author
+
+**Sajidali Saiyed**
+Automation framework built with Playwright for UI and API testing.
+
 [GitHub](https://github.com/sajidinnovationcs-coder) | [LinkedIn](https://www.linkedin.com/in/sajidali-saiyed-99aaa215a/)
-
----
-
-# ⭐ Notes
-
-This project demonstrates:
-
-* Playwright UI automation
-* API testing capabilities
-* Clean test architecture
-* Reusable automation utilities
-
-The framework is designed to be **easy to extend and maintain for larger automation suites**.
