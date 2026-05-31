@@ -4,8 +4,6 @@ A professional Playwright-based automation framework for testing web UI ([Sauce 
 
 Built with **scalability, maintainability, and reusability** in mind using Page Object Model and a modular structure.
 
-[![CI](https://github.com/sajidinnovationcs-coder/githubPract-1/actions/workflows/ci.yml/badge.svg)](https://github.com/sajidinnovationcs-coder/githubPract-1/actions/workflows/ci.yml)
-
 ---
 
 ## Features
@@ -13,9 +11,9 @@ Built with **scalability, maintainability, and reusability** in mind using Page 
 - UI automation using Playwright
 - API testing using node-fetch
 - Page Object Model (POM) architecture
-- CI/CD pipeline with GitHub Actions
+- Two-stage CI/CD pipeline with GitHub Actions
+- Branch protection — direct pushes to `master` blocked
 - Slack failure notifications
-- Chromium browser caching for fast CI runs
 - Environment variable support for credentials
 - HTML test reporting
 - Organised UI and API test structure
@@ -38,23 +36,74 @@ Built with **scalability, maintainability, and reusability** in mind using Page 
 
 ## CI/CD Pipeline
 
-This framework has a fully automated CI/CD pipeline powered by **GitHub Actions**.
+This framework has a fully automated two-stage CI/CD pipeline powered by **GitHub Actions**.
 
-### What the pipeline does
+### Stage 1 — Smoke Tests (on Pull Request)
 
-Every push to `master` automatically:
+**Triggered by:** Opening or updating a Pull Request against `master`
+**Workflow file:** `smoke-test-pipeline.yml`
+
+When a developer raises a PR, the smoke pipeline runs automatically:
 
 1. Checks out the code
-2. Sets up Node.js v24
-3. Installs npm dependencies (cached)
-4. Restores Playwright Chromium from cache (or downloads on first run)
-5. Runs the test suite
-6. Uploads the Playwright HTML report as an artifact on failure
-7. Sends a Slack notification on failure with a direct link to the failed run
+2. Sets up Node.js v20 LTS
+3. Installs npm dependencies
+4. Installs Playwright Chromium
+5. Runs the smoke test suite — critical path only
+6. Uploads HTML report as an artifact on failure
+7. Sends Slack notification on failure
 
-### Pipeline status
+The PR cannot be merged until smoke tests pass.
 
-You can view all pipeline runs under the [Actions tab](https://github.com/sajidinnovationcs-coder/playwright-ui-api-test-framework/actions).
+---
+
+### Stage 2 — Regression Tests (on merge to master)
+
+**Triggered by:** A PR being approved and merged into `master`
+**Workflow file:** `regression-test-pipeline.yml`
+
+Once a PR is merged, the full regression pipeline runs automatically:
+
+1. Checks out the code
+2. Sets up Node.js v20 LTS
+3. Installs npm dependencies
+4. Installs Playwright Chromium
+5. Runs the full regression test suite
+6. Uploads HTML report as an artifact on failure
+7. Sends Slack notification on failure
+
+---
+
+### Pipeline flow
+
+```
+Developer pushes code
+        ↓
+Creates Pull Request
+        ↓
+Smoke tests run automatically   ← smoke-test-pipeline.yml
+        ↓
+PR reviewed and approved
+        ↓
+PR merged into master
+        ↓
+Regression tests run automatically  ← regression-test-pipeline.yml
+        ↓
+Slack alert sent if anything fails
+```
+
+---
+
+### Branch protection rules
+
+`master` is a protected branch:
+
+- Direct pushes to `master` are blocked
+- All changes must go through a Pull Request
+- PR requires at least one approval before merging
+- Smoke tests must pass before merge is allowed
+
+---
 
 ### Slack notifications
 
@@ -76,8 +125,9 @@ This project follows a professional feature-branch workflow:
 
 - All features and fixes are developed on dedicated feature branches
 - Pull requests are required before merging into `master`
-- Direct pushes to `master` are prohibited
+- Direct pushes to `master` are blocked by branch protection rules
 - PRs are reviewed and approved before merging
+- Smoke tests must pass before a PR can be merged
 
 ---
 
@@ -88,7 +138,8 @@ project-root
 │
 ├── .github
 │   └── workflows
-│       └── ci.yml               ← GitHub Actions pipeline
+│       ├── smoke-test-pipeline.yml       ← runs on Pull Request
+│       └── regression-test-pipeline.yml  ← runs on merge to master
 │
 ├── playwright-report
 │   └── (HTML test reports)
@@ -125,10 +176,10 @@ project-root
 │       └── cart
 │           └── addItem.spec.js
 │
-├── .env.example                 ← example env file (never commit .env)
-├── .eslintrc.config.js          ← ESLint configuration
+├── .env.example                          ← example env file (never commit .env)
+├── eslint.config.js                      ← ESLint configuration
 ├── .gitignore
-├── .prettierrc                  ← Prettier configuration
+├── .prettierrc                           ← Prettier configuration
 ├── config.js
 ├── playwright.config.js
 ├── package.json
@@ -259,7 +310,8 @@ Benefits:
 - [x] UI automation (Playwright)
 - [x] API automation (node-fetch)
 - [x] Page Object Model
-- [x] CI/CD pipeline (GitHub Actions)
+- [x] Two-stage CI/CD pipeline (GitHub Actions)
+- [x] Branch protection rules
 - [x] Slack failure notifications
 - [x] ESLint + Prettier code quality
 - [ ] Screenshots on failure
